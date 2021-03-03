@@ -11,6 +11,7 @@ echo "This script read Netstat and show who do you connect with (or something li
 
 
 # ===== Run netstat                                  ==
+ns_opt="tunapl"
 RES=$(netstat -${ns_opt})
 
 
@@ -26,13 +27,15 @@ then
   awk_opt_str="firefox"
 fi
 
-# compose a parameter string for AWK
-awk_opt_str="/$awk_opt_str/ {print \$5}"
+# composing a parameter string for AWK (PID or srvName looking up in 7st field)
+awk_opt_str="\$7~/$awk_opt_str/ {print \$5}"
+#awk '$7~/2830/ {print $5}'
 #echo $awk_opt_str
-
+echo "before awk "
+echo "$RES"
 # ===== select name of process, print 5st column       ==
 RES=$(awk "$awk_opt_str" <<< "$RES")
-#echo "$RES"
+echo "$RES"
 
 # ===== Cut the port                                   ==
 RES=$(cut -d: -f1  <<< "$RES")
@@ -51,6 +54,8 @@ RES=$(sort <<< "$RES")
 # -^^------- End of AWK, cut, uniq, sort section --------------^^
 
 # -VV------------------- TAIL section -------------------------VV
+# count the number of records
+n_rec=$(wc -l <<< "$RES")
 
 tail_num="a"
 mask='^[1-9,]+[0-9]*$'
@@ -67,10 +72,13 @@ do
   fi
 done
 
-echo $tail_num
-
+#echo $tail_num
 # ===== Last N results                                 ==
-RES=$(tail -n${tail_num} <<< "$RES")
+if [[ $n_rec > $tail_num ]]; then
+  RES=$(tail -n${tail_num} <<< "$RES")
+else
+  tail_num=$n_rec
+fi
 
 #-^^------- End of tail section ------------------------------^^
 
