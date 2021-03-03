@@ -4,7 +4,7 @@ In common case this script implements command:
 sudo netstat -tunapl | awk '/firefox/ {print $5}' | cut -d: -f1 | sort | uniq -c | sort | tail -n5 | grep -oP '(\d+\.){3}\d+' | while read IP ; do whois $IP | awk -F':' '/^Organization/ {print $2}' ; done
 
 Modification original script:
-1. I skipped the first SORT, I don't make sense why it need there
+** 1. I skipped the first SORT, I don't make sense why it need there
 2. I'm using a variable to store the data, also I changed WHILE to FOR. In this case, it's convenient for me.
 3. I added the output of all mutable variables that are used in the script
 4. At the end added counting number of connection from the same Organization

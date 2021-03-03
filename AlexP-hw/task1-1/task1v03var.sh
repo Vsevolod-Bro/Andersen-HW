@@ -10,45 +10,9 @@ fi
 echo "This script read Netstat and show who do you connect with (or something like that)"
 
 
-#-VV----------------  NETSTAT Section-------------------------VV
-
-# ex = exit code = false
-ex=177
-
-# Until the user enters correct data
-while [ "$ex" -ne "0" ]
-do
-   if [[ "$ex" -ne 177 ]]
-   then
-      echo "You enter incorrect netstat options! Repeat, please."
-   fi
-
-   # <<< Request INPUT
-   read -p "Input options for netstat:" ns_opt 2>&1
-
-   # If user press Enter, value by default =tunapl
-   if [[ $ns_opt = "" ]]
-   then
-     ns_opt="tunapl"
-   fi
-
-   # It correct the string if user input "-"
-   if [ ${ns_opt:0:1} == "-" ]
-   then
-     ns_opt=${ns_opt:1}
-   fi
-
-
-   # test run netstat for get result
-   netstat -${ns_opt} &>/dev/null
-   ex=$?
-####   echo $ex #"$RES"
-done
-
-# ===== REAL run netstat                               ==
+# ===== Run netstat                                  ==
 RES=$(netstat -${ns_opt})
 
-#-^^--------End of NETSTAT section ----------------------------^^
 
 #-VV------------ AWK, cut. sort, uniq section -----------------VV
 # Default =firefox
@@ -74,8 +38,8 @@ RES=$(awk "$awk_opt_str" <<< "$RES")
 RES=$(cut -d: -f1  <<< "$RES")
 #echo "$RES"
 
-# NOT NEED
-#RES=$(sort <<< "$RES")
+# Sorting for UNIQ work correctly
+RES=$(sort <<< "$RES")
 
 # ===== Search uniq rows with number of entries        ==
 RES=$(uniq -c <<< "$RES")
