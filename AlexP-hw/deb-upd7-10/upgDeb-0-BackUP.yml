@@ -1,0 +1,31 @@
+---
+# THIS MODULE uses as INCLUDE in upg7to10-Main.yml
+
+# Backup procedure imitation
+
+# Make folder for mount NFS share from Ansible-BackUP Server
+- name:       Make a Directory for mount Distributive
+  file:
+    path:     /distr/deb
+    state:    directory
+    mode:     '0777'
+
+- name:       Mount NFS share from Ansible-BackUP Server
+  mount:
+    src:      10.0.2.100:/nfs01
+    path:     /distr/deb
+    opts:     rw,sync,hard,intr
+    state:    mounted
+    fstype:   nfs
+
+# Make the Backup Folder with Name of Node in it's name
+- name:       Make a Directory for BackUP
+  file:
+    path:     /distr/deb/bkp/bkp-{{ inventory_hostname }}
+    state:    directory
+    mode:     '0777'
+
+# Get paths from var "paths" and copy files to Backup Folders
+- name:       Copy files
+  shell:      cp -r  {{ item }}  /distr/deb/bkp/bkp-{{ inventory_hostname }}
+  with_items: "{{ paths }}"

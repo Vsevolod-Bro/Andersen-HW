@@ -1,0 +1,16 @@
+---
+# THIS MODULE uses as INCLUDE in upg7to10-Main.yml
+
+# Wait for restart and check version (exit from process if version not match)
+- name:    Check version OS
+  include: upgDeb-4-ChkVer.yml
+
+# Copy sources files for Update. Update and Upgrade curr ver to last state
+# Mount ISO distrib
+- name:    Update current OS
+  include: upgDeb-1-upgCurVer.yml
+
+# MAIN Upgrade from ISO
+# Restart OS after Upgrade
+- name:    Upgrade
+  include: upgDeb-3-Upgrade.yml

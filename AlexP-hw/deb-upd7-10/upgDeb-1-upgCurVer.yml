@@ -1,0 +1,47 @@
+---
+# THIS MODULE uses as INCLUDE in upgDeb-Go.yml
+
+# Preparation current vers. Debian to Last state before Upgrade
+
+# Print message with No version from loop step for checkout
+- name:       Print message
+  debug:
+    msg:      "Current step for Version:  {{ item.value.verOS }}"
+
+# Copy sources.list files with web address if it's not the first Pass (ver 7).
+# Set permissions as the original file is.
+- name:       Copy sourcelist for update
+  copy:
+    src:      "{{ item.value.srcText }}"
+    dest:     /etc/apt/sources.list
+    owner:    root
+    group:    root
+    mode:     '0644'
+  when:       item.value.verOS != "7"
+
+# --------- Update block ---------------------------
+# Skip this step when upgrade 8 to 9 because error arrives.
+- name:                    Update Current packets to latest
+  apt:
+    force_apt_get:         yes
+    force:                 yes
+    update_cache:          yes
+    allow_unauthenticated: yes
+    upgrade:               dist
+    autoremove:            yes
+    autoclean:             yes
+  when:                    item.value.verOS != "8"
+# --------------------------------------------------
+
+# Copy to Node sources.list with local ISO sources
+- name:       Copy sourcelist for upgrade from ISO
+  copy:
+    src:      "{{ item.value.srcFile }}"
+    dest:     /etc/apt/sources.list
+    owner:    root
+    group:    root
+    mode:     '0644'
+
+# Connect Distributive Debian ISO from local Ansible Server
+- name:       Mount ISO from mounted Share folder
+  command:    mount -t iso9660 -o loop /distr/deb/iso/"{{ item.value.isoFile }}" /distr/deb

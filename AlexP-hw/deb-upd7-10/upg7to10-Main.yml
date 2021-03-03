@@ -1,0 +1,49 @@
+---
+# Main file for Upgrade Debian 7 to 10
+  - name:          Main 7 to 10
+    hosts:         deb7
+    remote_user:   ans_user
+    become:        yes
+
+    # Data structure for store essential data for Upgrade
+    vars:
+      VerProperties:
+        ver7:
+          verOS:   "7"
+          isoFile: debian-8.11.1-amd64-DVD-1.iso
+          srcText: sourcesXX.list
+          srcFile: sources-dvd8.list
+        ver8:
+          verOS:   "8"
+          isoFile: debian-9.13.0-amd64-DVD-1.iso
+          srcText: sources8.list
+          srcFile: sources-dvd9.list
+        ver9:
+          verOS:   "9"
+          isoFile: debian-10.8.0-amd64-DVD-1.iso
+          srcText: sources9.list
+          srcFile: sources-dvd10.list
+      # Paths to files that we will copy to backup folder on Server
+      paths:
+        - /etc/
+        - /var/lib/dpkg/
+        - /var/lib/apt/extended_states
+        - /var/lib/aptitude/pkgstates
+        - /home/
+
+    tasks:
+      # Mount folder from Ansible-Backup Server
+      # BackUP essential folders to NFS share
+      # Runs once
+      - name:    BackUP OS folders
+        include: upgDeb-0-BackUP.yml
+
+      # Start YML that runs other .yml in Loop that goes through structure of vars
+      - name:    Go
+        include: upgDeb-Go.yml
+        loop:    "{{ lookup('dict', VerProperties) }}"
+
+      # Print Final Message
+      - name:    End of Work
+        debug:
+          msg:   "THE JOB IS DONE !!! "

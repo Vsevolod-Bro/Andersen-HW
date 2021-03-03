@@ -1,0 +1,33 @@
+---
+# THIS MODULE uses as INCLUDE in upgDeb-Go.yml
+
+# The Upgrade procedure itself (Main part)
+
+# Wait for reboot the Node and SSH starts
+- name:     Wait for restart
+  wait_for_connection:
+    delay:  10
+
+# Get new Version of OS
+- name:     Get new ansible_facts
+  setup:
+
+# If current version don't match to needed - Send WARNING
+- name:     Message to console
+  debug:
+    msg:    "!! Unexpeted OS version: {{ ansible_facts['distribution_major_version'] }}. Needed: {{ item.value.verOS }} !!"
+  when:     ansible_facts['distribution_major_version'] != "{{ item.value.verOS }}"
+
+# ATTENTION !
+# If current version don't match to needed - STOP and EXIT
+- meta:     end_play
+  when:     ansible_facts['distribution_major_version'] != "{{ item.value.verOS }}"
+
+# Mount NFS Volume from Server after restart node
+- name:     Mount an NFS volume
+  mount:
+    src:    10.0.2.100:/nfs01
+    path:   /distr/deb
+    opts:   rw,sync,hard,intr
+    state:  mounted
+    fstype: nfs

@@ -1,0 +1,51 @@
+---
+# THIS MODULE uses as INCLUDE in upgDeb-Go.yml
+
+#-- The Upgrade procedure itself (Main part) --
+
+- name:      For prevent messages
+  command:   apt-get remove apt-listchanges --assume-yes --force-yes
+
+- name:      Command Update
+  command:   apt-get update -y
+
+# -- UPGRADE OS --
+# Skip when work on ver 8. Freezing. Go to next shell Upgrade command
+- name:                       Upgrade to new version
+  apt:
+    upgrade:                  dist
+    force_apt_get:            yes
+    force:                    yes
+    dpkg_options:             'force-confold,force-confdef'
+    only_upgrade:             yes
+    allow_unauthenticated:    yes
+    autoremove:               yes
+    autoclean:                yes
+  environment:
+    DEBIAN_FRONTEND:          noninteractive
+    APT_LISTCHANGES_FRONTEND: none
+  when:                       item.value.verOS != "8"
+
+# Upgrade ver 8 to 9 with Shell command
+- name:                       Upgrade if ver=8
+  command:     apt-get --force-yes -o Dpkg::Options::="--force-confold" --force-yes -o Dpkg::Options::="--force-confdef" -fuy upgrade && apt-get --force-yes -o Dpkg::Options::="--force-confold" --force-yes -o Dpkg::Options::="--force-confdef" -fuy dist-upgrade
+  environment:
+    DEBIAN_FRONTEND:          noninteractive
+    APT_LISTCHANGES_FRONTEND: none
+  when:                       item.value.verOS == "8"
+
+# Dismount share (there was a case that it was needed )
+- name:                Unmount
+  mount:
+    path:              /distr/deb
+    state:             unmounted
+  register:            task_result
+
+# Reboot node. Timeout required. (sometimes not enough time to reboot)
+- name:                Reboot node after Upgrade to new ver
+  reboot:
+    msg:               "Reboot achived"
+    connect_timeout:   30
+    reboot_timeout:    60
+    post_reboot_delay: 60
+    test_command:      uptime
