@@ -2,18 +2,15 @@
 # Redirect all errors to name_script.log file
 if [ -z "$1" ]; then
   exec 2> "$0".log
-  #echo "Errors - OFF"
 else
   echo "Errors - ON"
 fi
 
 echo "This script read Netstat and show who do you connect with (or something like that)"
 
-
 # ===== Run netstat                                  ==
 ns_opt="tunapl"
 RES=$(netstat -${ns_opt})
-
 
 #-VV------------ AWK, cut. sort, uniq section -----------------VV
 # Default =firefox
@@ -29,17 +26,12 @@ fi
 
 # composing a parameter string for AWK (PID or srvName looking up in 7st field)
 awk_opt_str="\$7~/$awk_opt_str/ {print \$5}"
-#awk '$7~/2830/ {print $5}'
-#echo $awk_opt_str
-echo "before awk "
-echo "$RES"
+
 # ===== select name of process, print 5st column       ==
 RES=$(awk "$awk_opt_str" <<< "$RES")
-echo "$RES"
 
 # ===== Cut the port                                   ==
 RES=$(cut -d: -f1  <<< "$RES")
-#echo "$RES"
 
 # Sorting for UNIQ work correctly
 RES=$(sort <<< "$RES")
@@ -49,7 +41,6 @@ RES=$(uniq -c <<< "$RES")
 
 # ===== Sort                                           ==
 RES=$(sort <<< "$RES")
-#echo "$RES"
 
 # -^^------- End of AWK, cut, uniq, sort section --------------^^
 
@@ -72,7 +63,6 @@ do
   fi
 done
 
-#echo $tail_num
 # ===== Last N results                                 ==
 if [[ $n_rec > $tail_num ]]; then
   RES=$(tail -n${tail_num} <<< "$RES")
@@ -82,13 +72,12 @@ fi
 
 #-^^------- End of tail section ------------------------------^^
 
-#echo "$RES"
 echo "Selected IPs:"
 # ===== Grep                                           ==
 RES=$(grep -oP '(\d+\.){3}\d+' <<< "$RES")
 echo "--------------------"
 echo "$RES"
-echo "======"
+echo "===================="
 
 
 # -VV------------ AWK-2 section ------------------------------VV
@@ -117,11 +106,8 @@ echo " "
 i=0
 for IP in  $RES
 do
-###  echo "|""$IP""|"
   # ===== Whois                                        ==
   RES=$(whois $IP)
-  #echo "$RES"
-###  echo "****"
   RES1=$RES
   # ===== AWK-2                                        ==
   RES=$(awk -F':' "$awk2_opt_str" <<< "$RES")
@@ -169,5 +155,3 @@ for (( i2 = 0; i2 < i3; i2++ )); do
   echo "${arr_names[$i2]} = ${arr_count[$i2]}"
   echo "-------------------------------------------"
 done
-#NetName
-# Organization
