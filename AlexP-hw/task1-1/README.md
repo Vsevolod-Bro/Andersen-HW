@@ -36,9 +36,6 @@ sudo netstat -tunapl | awk '/firefox/ {print $5}' | cut -d: -f1 | sort | uniq -c
 *The Removed option:*
 
    Require from user Netstat options interactively.
-
    If user input netstat options with "-" before, script delete this symbol automatically.
-
-   Before use command netstat with parameters, the  script run the test command, prevent output and check correct command.
-   
+   Before use command netstat with parameters, the  script run the test command, prevent output and check correct command.   
    If options incorrect, there is required input repeatedly.
