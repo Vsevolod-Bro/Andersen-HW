@@ -3,7 +3,7 @@
 
 This script run netstat command and then search in this output required information (for example, Organization) about connections.
 In common case this script implements command:
-```
+```bash
 sudo netstat -tunapl | awk '/firefox/ {print $5}' | cut -d: -f1 | sort | uniq -c | sort | tail -n5 | grep -oP '(\d+\.){3}\d+' | while read IP ; do whois $IP | awk -F':' '/^Organization/ {print $2}' ; done
 ```
 
