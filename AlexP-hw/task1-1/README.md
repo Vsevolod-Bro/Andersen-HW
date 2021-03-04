@@ -18,10 +18,10 @@ sudo netstat -tunapl | awk '/firefox/ {print $5}' | cut -d: -f1 | sort | uniq -c
 
 1. If the parameter is present in the script call, then the redirection of errors to the LOG-file is disabled and the message is displayed "Errors ON"
 2. Added query for key values:
-   -Netstat options
-   2.1. PID or String for first awk command
-   a Number of displayed rows for tail command
-   b String that will be used second awk for search in the whois command output
+   - Netstat options
+   - PID or String for first awk command
+   - Number of displayed rows for tail command
+   - String that will be used second awk for search in the whois command output
 3. The User can just press Enter when asked for input value. Script will put the default values into variables
 4. Script detect incorrect values in netstat options and number for tail.
 5. Whole errors output redirect to LOG-file with script name ($0). (It's can be disabled through adding any parameter to the script call)
