@@ -18,16 +18,13 @@ sudo netstat -tunapl | awk '/firefox/ {print $5}' | cut -d: -f1 | sort | uniq -c
 
 1. If the parameter is present in the script call, then the redirection of errors to the LOG-file is disabled and the message is displayed "Errors ON"
 2. Added query for key values:
-   - Netstat options
    - PID or String for first awk command
    - Number of displayed rows for tail command
    - String that will be used second awk for search in the whois command output
 3. The User can just press Enter when asked for input value. Script will put the default values into variables
-4. Script detect incorrect values in netstat options and number for tail.
+4. Script detect incorrect number entered by the user for the tail command.
 5. Whole errors output redirect to LOG-file with script name ($0). (It's can be disabled through adding any parameter to the script call)
-6. If user input netstat options with "-" before, script delete this symbol automatically
-7. Before use command netstat with parameters, the  script run the test command, prevent output and check correct command.
-   If options incorrect, there is required input repeatedly.
+
 
 
 
@@ -35,3 +32,9 @@ sudo netstat -tunapl | awk '/firefox/ {print $5}' | cut -d: -f1 | sort | uniq -c
 **Notes:**
 
    For counting numbers of connection from same Organization, I used two arrays. Data in arrays are related by the same indices. In the first array - name, number of occurrences in the other one.
+
+*The Removed option:*
+   Require from user Netstat options interactively
+   If user input netstat options with "-" before, script delete this symbol automatically
+   Before use command netstat with parameters, the  script run the test command, prevent output and check correct command.
+   If options incorrect, there is required input repeatedly.
