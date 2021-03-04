@@ -18,6 +18,7 @@ sudo netstat -tunapl | awk '/firefox/ {print $5}' | cut -d: -f1 | sort | uniq -c
 
 1. If the parameter is present in the script call, then the redirection of errors to the LOG-file is disabled and the message is displayed "Errors ON"
 2. Added query for key values:
+
    2.1 Netstat options
    2.2 PID or String for first awk command
    2.3 Number of displayed rows for tail command
