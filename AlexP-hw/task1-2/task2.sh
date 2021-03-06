@@ -12,7 +12,7 @@ i=0
 year_tmp[$i]=2015
 go=true
 # Creating LOG-file
-echo "The Volatility Calculating LOG" > ./task2-2.log
+echo "The Volatility Calculating LOG" > ./task1-2.log
 # Init var with big value
 VOLA_min=1000000000
 while $go ; do
@@ -39,9 +39,9 @@ while $go ; do
   INCR=$(awk ''"$awk_str"'' <<< "$RES")
 
 
-  echo "--------- Changes value of ${year_tmp[$i]} -------------" >> ./task2-2.log
-  echo "$INCR" >> ./task2-2.log
-  echo "--------------------------------------------------------" >> ./task2-2.log
+  echo "--------- Changes value of ${year_tmp[$i]} -------------" >> ./task1-2.log
+  echo "$INCR" >> ./task1-2.log
+  echo "--------------------------------------------------------" >> ./task1-2.log
   # Calc the mean deviation
   awk_str="BEGIN {FS=\"\\n\"; RS=\"\\n\"; count = 0; sum = 0} {count+=1; sum+=\$1} END {print sum/count}"
   MID=$(awk ''"$awk_str"'' <<< "$INCR")
@@ -49,13 +49,13 @@ while $go ; do
   # Calc the number of values
   awk_str="BEGIN {FS=\"\\n\"; RS=\"\\n\"; count = 0} {count+=1} END {print count}"
   Count_val=$(awk ''"$awk_str"'' <<< "$INCR")
-  echo "mid= $MID   count= $Count_val" >> ./task2-2.log
+  echo "mid= $MID   count= $Count_val" >> ./task1-2.log
 
   # --- Calculate volatility
 
   awk_str="BEGIN {FS=\"\\n\"; RS=\"\\n\"; sum = 0; var = 0} {var = $MID - \$1; sum = (var * var) + sum} END { print sum/$Count_val}"
   VOLA=$(awk ''"$awk_str"'' <<< "$INCR")
-  echo "Volatility= $VOLA" >> ./task2-2.log
+  echo "Volatility= $VOLA" >> ./task1-2.log
   # Remember Volatility and Year
   if [[ ${VOLA} < ${VOLA_min} ]]; then
     VOLA_min=${VOLA}
@@ -69,4 +69,4 @@ while $go ; do
   fi
 done
 echo "Min Volatility in March is: ${VOLA_min} in $YEAR"
-echo "Min Volatility in March is: ${VOLA_min} in $YEAR" >> ./task2-2.log
+echo "Min Volatility in March is: ${VOLA_min} in $YEAR" >> ./task1-2.log

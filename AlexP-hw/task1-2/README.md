@@ -1,4 +1,5 @@
 **Andersen Homework 1, task2**
+
 *The Objective*
 ./quotes.json - historical quotes for EUR/RUB pair since late November 2014
 
@@ -16,37 +17,31 @@ jq -r '.prices[][]' quotes.json | tail -n 28 | awk 'BEGIN {FS="\n"; RS="\n"} {if
 ```
 
 **Solution second task**
-
+I decided to do the calculation of historical volatility for financial markets.
+Here is a rough formula for that:
 ![alt text](https://github.com/Vsevolod-Bro/Andersen-HW/blob/main/AlexP-hw/task1-2/Formula.JPG?raw=true)
-**Modification original script:**
 
-1. I'm using a variable to store the data, also I changed WHILE to FOR. In this case, it's convenient for me.
-2. I added the output of all mutable variables that are used in the script
-3. At the end added counting number of connection from the same Organization
-4. Displays selected IP-s (for checking results)
+**Method:**
 
-**User Interface and other improves:**
+1. For the calculation, you need to create a sequence not of the values ​​themselves, but changes between the current and the previous value.
+2. Then, from this sequence, you need to find the average value of the increments and their number.
+3. Then you need to calculate the sum of the squares of the increments and divide this by the number of measurements.
+4. Find the minimum
 
-1. If the parameter is present in the script call, then the redirection of errors to the LOG-file is disabled and the message is displayed "Errors ON"
-2. Added query for key values:
-   - PID or String for first awk command
-   - Number of displayed rows for tail command
-   - String that will be used second awk for search in the whois command output
-3. The User can just press Enter when asked for input value. Script will put the default values into variables
-4. Script detect incorrect number entered by the user for the tail command.
-5. Whole errors output redirect to LOG-file with script name ($0). (It's can be disabled through adding any parameter to the script call)
+**Algorithm:**
+
+1. Create log file
+2. In json file no values for March of 2014 so start from 2015
+3. Go to "While"
+4. To select the increments for March, we need to find the last day of February.
+5. Calculate timestamp for middle of February date and 00:00:00 of 01 march.
+6. Find the last day in sequence above. It's last day of February with exist value
+7. Generate a sequence of value increments by March dates. For it filtering the dates by march. If date in the range, then set the flag that the next value must be added to the list.
+8. Calculate the mean value of list of increments and count number of values.
+9. Calculate the sum of squares changes and divide by the number of values
+10. If this average adequate low then current, then remember this one.
+11. Print the result.
 
 
-
-
-
-**Notes:**
-
-   For counting numbers of connection from same Organization, I used two arrays. Data in arrays are related by the same indices. In the first array - name, number of occurrences in the other one.
-
-*The Removed option:*
-
-   Require from user Netstat options interactively.
-   If user input netstat options with "-" before, script delete this symbol automatically.
-   Before use command netstat with parameters, the  script run the test command, prevent output and check correct command.   
-   If options incorrect, there is required input repeatedly.
+*Logging:*
+Calculation log is output to a log file (task1-2.log) for verification
