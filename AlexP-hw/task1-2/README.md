@@ -17,7 +17,7 @@ jq -r '.prices[][]' quotes.json | tail -n 28 | awk 'BEGIN {FS="\n"; RS="\n"} {if
 
 **Solution second task**
 
-
+![alt text](https://github.com/Vsevolod-Bro/Andersen-HW/blob/main/AlexP-hw/task1-2/Formula.JPG?raw=true)
 **Modification original script:**
 
 1. I'm using a variable to store the data, also I changed WHILE to FOR. In this case, it's convenient for me.
