@@ -22,6 +22,8 @@ jq -r '.prices[][]' quotes.json | tail -n 28 | awk 'BEGIN {FS="\n"; RS="\n"} {if
 
 I decided to do the calculation of historical volatility for financial markets.
 Here is a rough formula for that:
+
+
 ![alt text](https://github.com/Vsevolod-Bro/Andersen-HW/blob/main/AlexP-hw/task1-2/Formula.JPG?raw=true)
 
 **Method:**
