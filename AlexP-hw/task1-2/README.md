@@ -1,6 +1,8 @@
 **Andersen Homework 1, task2**
 
-*The Objective*
+__*The Objective*__
+
+
 ./quotes.json - historical quotes for EUR/RUB pair since late November 2014
 
 The given script below get the mean value for the last 14 days:
@@ -17,6 +19,7 @@ jq -r '.prices[][]' quotes.json | tail -n 28 | awk 'BEGIN {FS="\n"; RS="\n"} {if
 ```
 
 **Solution second task**
+
 I decided to do the calculation of historical volatility for financial markets.
 Here is a rough formula for that:
 ![alt text](https://github.com/Vsevolod-Bro/Andersen-HW/blob/main/AlexP-hw/task1-2/Formula.JPG?raw=true)
@@ -43,5 +46,6 @@ Here is a rough formula for that:
 11. Print the result.
 
 
-*Logging:*
+__*Logging:*__
+
 Calculation log is output to a log file (task1-2.log) for verification
