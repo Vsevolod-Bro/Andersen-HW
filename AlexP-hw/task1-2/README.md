@@ -10,8 +10,8 @@ The given script below get the mean value for the last 14 days:
 jq -r '.prices[][]' quotes.json | grep -oP '\d+\.\d+' | tail -n 14 | awk -v mean=0 '{mean+=$1} END {print mean/14}'
 ```
 
-* 1. remove the `grep -oP '\d+\.\d+'` part, do the same thing without any pattern matching
-* 2. tell me which March the price was the least volatile since 2015? To do so you'll have to find the difference between MIN and MAX values for the period.
+1. remove the `grep -oP '\d+\.\d+'` part, do the same thing without any pattern matching
+2. tell me which March the price was the least volatile since 2015? To do so you'll have to find the difference between MIN and MAX values for the period.
 
 **Solution first task:**
 ```sh
