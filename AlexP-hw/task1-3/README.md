@@ -18,20 +18,24 @@ I used the next utilities: CURL, JQ, AWK
 Part 1
 
 *file: 1pr-open.sh*
-1. I used the **curl** call like a:
+** I used the **curl** call like a:
 ```sh
 curl "https://api.github.com/repos/$USER/$REPO/pulls?state=open"
 ```
 to get json data about open pull requests.
-2. Next, I parsed curl output with the **jq** utility.
-3. Get first object. If returned value is **null** then there is No contributors.
-4. Script check if there **no argument** in the invoke
-5. It's trap some possible errors and prints its own messages
+** Next, I parsed curl output with the **jq** utility.
+** Get first object. If returned value is **null** then there is No contributors.
+** Script check if there **no argument** in the invoke
+** It's trap some possible errors and prints its own messages
 
 Part 2
 
 *file: 2pr-open.sh*
-1. The general part of script is the same as in 1pr-open.sh, but then I sort and use the **UNIQ** to Count the number of entry the same contributors.
-2. I used AWK for decouple the number and name of contributors.
-3. Remove character "" from names
+1. The general part of script is the same as in *1pr-open.sh*, but then I sort and use the **UNIQ** to count the number of entry the same contributors.
+2. I used **AWK** for decouple the number and name of contributors.
+3. Remove character "" from names.
 4. If there are no contributors, then script aborting and print the message.
+
+
+Part 3
+*file: 3pr-open.sh*
