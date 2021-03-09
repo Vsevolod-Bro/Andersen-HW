@@ -10,6 +10,11 @@ Part 2
 
 print the list of the most productive contributors (authors of more than 1 open PR)
 
+Part 3
+
+print the number of PRs each contributor has created with the labels
+
+_______________________________________________________________________________
 
 **Implementation**
 
