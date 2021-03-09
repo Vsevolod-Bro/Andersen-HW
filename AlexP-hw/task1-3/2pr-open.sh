@@ -1,8 +1,9 @@
 #!/bin/bash
 #Objective:
-# The script checks if there are open pull requests for a repository. An url like `https://github.com/$user/$repo` will be passed to the script
+# The script print the list of the most productive contributors (authors of more than 1 open PR) for a repository.
+#An url like `https://github.com/$user/$repo` will be passed to the script
 
-#------ Start ------
+#-------- Start ---------
 #https://github.com/$user/$repo`
 #0                  19  - user and repo begin from 19st symbol
 
@@ -18,10 +19,10 @@ userrep=${http:19}
 slash=$(expr index $userrep /)
 user=${userrep:0:$[$slash-1]}
 repo=${userrep:$slash}
-echo "--- Script processes: ---"
+echo "----------- Script processes: ----------"
 echo "User = $user"
 echo "Repo = $repo"
-echo "-------------------------"
+echo "----------------------------------------"
 echo ""
 
 # Make the query string
@@ -29,6 +30,7 @@ strQ="https://api.github.com/repos/"$userrep"/pulls?state=open"
 
 strQ=$(curl $strQ 2> /dev/null)
 ex=$?
+
 # Trap the error
 if [[ "$ex" -ne 0 ]]
 then
@@ -36,7 +38,7 @@ then
   exit 1
 fi
 # Parse the Curl output - present any data or not
-cnt=$(jq '.[0].user.login' <<< $strQ 2> /dev/null)
+cnt=$(jq '.[].user.login' <<< $strQ 2> /dev/null)
 ex=$?
 # Trap the error
 if [[ "$ex" -ne 0 ]]
@@ -46,11 +48,29 @@ then
 fi
 
 # Final output
-if [[ $cnt == "null" ]]; then
+if [[ $cnt == "null" || $cnt == "" ]]; then
   echo "No open Pull Requests"
-else
-  echo "There is open Pull Requests"
+  exit 1
 fi
 
-echo""
-echo""
+# Counting PRs for the Contributors
+cnt=$(sort <<< "$cnt")
+cnt=$(uniq -c <<< "$cnt")
+
+# Get the contributers names
+#echo "$cnt"
+echo "=== Contributors with more then 1 PR ==="
+
+for name in "$cnt"
+do
+  Liders=$(awk "{if ( \$1>1 ) print \$2}" <<< "$name")
+done
+
+echo ""
+# Remove character "" from names
+echo "${Liders//'"'}"
+
+
+
+echo "----------------------------------------"
+echo ""
