@@ -1,2 +1,7 @@
 *.log
 *.LOG
+./task1-3/pages01
+./task1-3/pages01/*
+pages01/*
+/andersen/Andersen-HW/AlexP-hw/task1-3/pages01
+/andersen/Andersen-HW/AlexP-hw/task1-3/pages01/*
