@@ -19,14 +19,12 @@ userrep=${http:19}
 slash=$(expr index $userrep /)
 user=${userrep:0:$[$slash-1]}
 repo=${userrep:$slash}
-echo "----------- Script processes: ----------"
-echo "User = $user"
-echo "Repo = $repo"
-echo "----------------------------------------"
+echo "--- Script processes All repositories for: ---"
+echo "User: $user"
 echo ""
 
 # Make the query string
-strQ="https://api.github.com/repos/"$userrep"/pulls?state=all"
+strQ="https://api.github.com/users/"$user"/repos"
 
 strQ=$(curl $strQ 2>/dev/null )
 ex=$?
@@ -38,8 +36,12 @@ then
   exit 1
 fi
 
-# Parse the Curl output - SELECT CONTRIBUTORS          =======
-cnt=$(jq '.[].user.login' <<< $strQ 2> /dev/null)
+#curl 'https://api.github.com/users/TheAlgorithms/repos' | jq '.[].stargazers_count'
+#curl 'https://api.github.com/users/TheAlgorithms/repos' | jq '.[].name'
+
+
+# Parse the Curl output - SELECT THE REPOSITORIES NAMES          =======
+cnt=$(jq '.[].name' <<< $strQ 2> /dev/null)
 ex=$?
 # Trap the error
 if [[ "$ex" -ne 0 ]]
@@ -48,15 +50,15 @@ then
   exit 1
 fi
 
-# If no pull requests-------------------------------------
+# If no repositories -------------------------------------
 if [[ $cnt == "null" || $cnt == "" ]]; then
   echo "No open Pull Requests"
   exit 1
 fi
 #---------------------------------------------------------
 
-# Parse the Curl output - SELECT LABELS                =======
-lbl=$(jq '.[].labels[0].name' <<< $strQ 2> /dev/null)
+# Parse the Curl output - SELECT AMOUNT OF STARS                =======
+stars=$(jq '.[].stargazers_count' <<< $strQ 2> /dev/null)
 ex=$?
 # Trap the error
 if [[ "$ex" -ne 0 ]]
@@ -66,22 +68,25 @@ then
 fi
 
 
-# !! Set a delimiter instead of a space - LF \n because labels contain names of several words
+# !! Set a delimiter instead of a space - LF \n because pero names contain of several words
 # Save IFS to variable
 SAVEIFS=$IFS
 IFS=$'\n'
 i=0
-for user in $cnt
+
+# Put repo names in the array
+for repo in $cnt
 do
-  users[$i]=$user
+  repos[$i]=$repo
   i=$[$i+1]
 done
 isave=$i
 
+# Put amount of stars into array
 j=0
-for label in $lbl
+for star in $stars
 do
-  labels[$j]=$label
+  rate[$j]=$star
   j=$[$j+1]
 done
 jsave=$j
@@ -89,57 +94,15 @@ jsave=$j
 # Return original value of IFS
 IFS=$SAVEIFS
 
-# Check matching the quantity of PRs and Labels
+# Check matching the quantity of repos and numbers of stars
 if [[ $isave != $jsave ]]; then
   echo "Oops! Something went wrong!!!"
   echo "Names= $isave Labels= $jsave"
 fi
 
-
-lf=$'\n'
-
-for (( i = 0; i < jsave; i++ )); do
-  if [[ ${labels[$i]} != "null" && ${labels[$i]} != "" ]]; then
-    if [[ $labPR == "" ]]; then
-      labPR=${users[$i]}
-    else
-      labPR="${labPR}${lf}${users[$i]}"
-    fi
-  fi
-
+# Print repos names and appropriate amount of stars
+for (( i = 0; i < isave; i++ )); do
+  echo "Rep Name = ${repos[$i]}"
+  echo "Stars    = ${rate[$i]}"
+  echo "------------------------------------------"
 done
-
-cntPRs=$(sort <<< "$labPR")
-cntPRs=$(uniq -c <<< "$cntPRs")
-
-#echo "=== Contributors with more then 1 PR ==="
-echo "$cntPRs"
-
-
-curl 'https://api.github.com/users/TheAlgorithms/repos' | jq '.[].stargazers_count'
-curl 'https://api.github.com/users/TheAlgorithms/repos' | jq '.[].name'
-
-
-
-# Counting PRs for the Contributors
-##cnt=$(sort <<< "$cnt")
-##cnt=$(uniq -c <<< "$cnt")
-
-# Get the contributers names
-#echo "$cnt"
-
-
-# Select the contributors
-##for name in "$cnt"
-##do
-##  Liders=$(awk "{if ( \$1>1 ) print \$2}" <<< "$name")
-##done
-
-echo ""
-# Remove character "" from names
-#echo "${Liders//'"'}"
-
-
-
-echo "----------------------------------------"
-echo ""
