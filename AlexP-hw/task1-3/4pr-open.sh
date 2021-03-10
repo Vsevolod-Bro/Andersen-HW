@@ -1,7 +1,7 @@
 #!/bin/bash
-# Objective:
-# Print the number of PRs each contributor has created with the labels.
-# An url like `https://github.com/$user/$repo` will be passed to the script
+#Objective:
+# The script print the list of the most productive contributors (authors of more than 1 open PR) for a repository.
+#An url like `https://github.com/$user/$repo` will be passed to the script
 
 #-------- Start ---------
 #https://github.com/$user/$repo`
@@ -19,10 +19,10 @@ userrep=${http:19}
 slash=$(expr index $userrep /)
 user=${userrep:0:$[$slash-1]}
 repo=${userrep:$slash}
-echo "------------------ Script processes: -----------------"
+echo "----------- Script processes: ----------"
 echo "User = $user"
 echo "Repo = $repo"
-
+echo "----------------------------------------"
 echo ""
 
 # Make the query string
@@ -70,10 +70,6 @@ fi
 # Save IFS to variable
 SAVEIFS=$IFS
 IFS=$'\n'
-# -------   Create two matching arrays. ---------
-#    One contains usernames, the other contains labels
-
-# Put user names into array (list)
 i=0
 for user in $cnt
 do
@@ -82,7 +78,6 @@ do
 done
 isave=$i
 
-# Put labels into array (list)
 j=0
 for label in $lbl
 do
@@ -100,8 +95,7 @@ if [[ $isave != $jsave ]]; then
   echo "Names= $isave Labels= $jsave"
 fi
 
-# - Another way ))
-# Set the symbol LF that will be separate the rows
+
 lf=$'\n'
 
 for (( i = 0; i < jsave; i++ )); do
@@ -116,11 +110,36 @@ for (( i = 0; i < jsave; i++ )); do
 done
 
 cntPRs=$(sort <<< "$labPR")
-# count for every single user number of PRs with labels
 cntPRs=$(uniq -c <<< "$cntPRs")
 
-echo "=== Count of PRs with labels for every Contributor ==="
+#echo "=== Contributors with more then 1 PR ==="
 echo "$cntPRs"
 
-echo "------------------------------------------------------"
+
+curl 'https://api.github.com/users/TheAlgorithms/repos' | jq '.[].stargazers_count'
+curl 'https://api.github.com/users/TheAlgorithms/repos' | jq '.[].name'
+
+
+
+# Counting PRs for the Contributors
+##cnt=$(sort <<< "$cnt")
+##cnt=$(uniq -c <<< "$cnt")
+
+# Get the contributers names
+#echo "$cnt"
+
+
+# Select the contributors
+##for name in "$cnt"
+##do
+##  Liders=$(awk "{if ( \$1>1 ) print \$2}" <<< "$name")
+##done
+
+echo ""
+# Remove character "" from names
+#echo "${Liders//'"'}"
+
+
+
+echo "----------------------------------------"
 echo ""
