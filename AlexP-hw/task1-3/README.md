@@ -30,9 +30,12 @@ _______________________________________________________________________________
 
 I used the next utilities: CURL, JQ, AWK
 
+All parts of the task are made by separate functions that are called in the script. The parameter of the main script is passed to the every function.  
+
+*file: PR-all.sh*
 **Part 1**
 
-*file: 1pr-open.sh*
+*function Part1*
    - I used the **curl** call like a:
 ```sh
 curl "https://api.github.com/repos/$USER/$REPO/pulls?state=open"
@@ -40,13 +43,13 @@ curl "https://api.github.com/repos/$USER/$REPO/pulls?state=open"
 to get json data about open pull requests.
    - Next, I parsed curl output with the **jq** utility.
    - Get first object. If returned value is **null** then there is No contributors.
-   - Script check if there **no argument** in the invoke
+   - Function check if there **no argument** in the invoke
    - It's trap some possible errors and prints its own messages
 
 **Part 2**
 
-*file: 2pr-open.sh*
-1. The general part of script is the same as in *1pr-open.sh*, but then I sort and use the **UNIQ** to count the number of entry the same contributors.
+*function Part2*
+1. The general part of the function is the same as in *function Prat1*, but then I sort and use the **UNIQ** to count the number of entry the same contributors.
 2. I used **AWK** for decouple the number and name of contributors.
 3. Remove character "" from names.
 4. If there are no contributors, then script aborting and print the message.
@@ -54,23 +57,22 @@ to get json data about open pull requests.
 
 **Part 3**
 
-*file: 3pr-open.sh*
-1. As in the previous tasks, the presence of an **http address** as a parameter is checked. **Errors** are intercepted.
-2. Again, the contributor name and repository name are fetched and printed for visual control.
-3. All Pull Requests are processed (but not only open ones, because there are few of them).
-4. Select with *jq* **user Logins** in the one variable.
-5. Select with *jq* **Labels** in the another one.
-6. We put the contents of the list variables into arrays. This will enable us to process the content together.
-7. Set a separator instead of a space - LF \n because labels contain names of several words.
-8. Checking that the number of elements in the array is the same.
-9. Checking if labels not equal "null" and not equal empty string, then PR have a label.
-10. Sorting list and count the amount of entries the for contributors with **uniq** utility.
-11. Print the result.
+*function Part3*
+1. As in the previous tasks, the **Errors** are intercepted.
+2. All Pull Requests are processed (but not only open ones, because there are few of them).
+3. Select with *jq* **user Logins** in the one variable.
+4. Select with *jq* **Labels** in the another one.
+5. We put the contents of the list variables into arrays. This will enable us to process the content together.
+6. Set a separator instead of a space - LF \n because labels contain names of several words.
+7. Checking that the number of elements in the array is the same.
+8. Checking if labels not equal "null" and not equal empty string, then PR have a label.
+9. Sorting list and count the amount of entries the for contributors with **uniq** utility.
+10. Print the result.
 
 **Part 4**
 
-*file: 4pr-open.sh*
- - Input data for the script as usual  
+*function Part4*
+ - Input data for the function as usual  
  - I decided to display the **rating of all repositories for a given user** (usual https-string for the whole task).
  - I used next string to get data:
  ```sh
