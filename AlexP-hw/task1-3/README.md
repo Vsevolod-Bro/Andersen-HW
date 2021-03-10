@@ -82,8 +82,8 @@ to get json data about open pull requests.
 
 **Part 5**
 
-* I did the Pull Reguest myself.
-* To do this, I opened additional github account on the GIT.
+* I did the Pull Request between my accounts.
+* To do this, I opened additional github account.
 ```https
 https://github.com/Bro-VV/Andersen-HW-1
 ```
