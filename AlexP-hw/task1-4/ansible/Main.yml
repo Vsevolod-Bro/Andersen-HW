@@ -1,0 +1,133 @@
+---
+# Main file for deployment web server with flask application
+  - name:          Main Deploy web app
+    hosts:         vm
+    remote_user:   ans
+    become:        yes
+
+    # Data structure for store essential data for Upgrade
+    vars:
+      # Paths to this application
+      path_app: /web-app
+      path_nginx: /etc/nginx/sites-available
+      path_sysd: /etc/systemd/system
+      venv_name: web-1env
+      # Packages to install
+      pyth_env:
+        - ufw
+        - nginx
+        - python3-pip
+        - python3-dev
+        - build-essential
+        - libssl-dev
+        - libffi-dev
+        - python3-setuptools
+        - python3-venv
+
+      app_files:
+        - web-1.ini
+        - web1.py
+        - wsgi.py
+
+      sysd_file: web-1.service
+      nginx_file: web-1
+      # Commands for configuring Firewall
+      ufw_command:
+        - default deny incoming
+        - default allow outgoing
+        - allow ssh
+        - allow 80
+        - allow 443
+        - allow 'Nginx Full'
+
+    tasks:
+       # Update - update_cache
+       # Install essential packets in the loop by variable PYTH_ENV
+
+      # Get The Target Host IP address for cerate SSL certs
+      - set_fact:    v_ip={{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}
+
+      - name:               Update and Install the Python environment
+        apt:
+          name:             "{{ item }}"
+          force_apt_get:    yes
+          force:            yes
+          update_cache:     yes
+          autoremove:       yes
+          autoclean:        yes
+        with_items:         "{{ pyth_env }}"
+
+      - name:               Make the App Directory
+        file:
+          path:             "{{ path_app }}"
+          state:            directory
+          mode:             '0775'
+
+      - name:               venv-script
+        script:             venv.sh
+
+      # Copy essential files
+      - name:               Copy App file
+        copy:
+          src:              "{{ item }}"
+          dest:             "{{ path_app }}"
+          mode:             '0775'
+        with_items:         "{{ app_files }}"
+
+      # Copy essential files
+      - name:       Copy Nginx file
+        copy:
+          src:      "{{ nginx_file }}"
+          dest:     "{{ path_nginx }}"
+          mode:     '0775'
+
+      # Copy essential files
+      - name:       Copy systemd file
+        copy:
+          src:      "{{ sysd_file }}"
+          dest:     "{{ path_sysd }}"
+          mode:     '0775'
+
+
+      - name:       Create SSL-keys
+        script:     "ssl-key.sh {{ v_ip }}"
+
+      - name:       Start App
+        command:    "systemctl start {{ nginx_file }}"
+
+      - name:       Enable App
+        command:    "systemctl enable {{ nginx_file }}"
+
+      - name:       Copy ssl file
+        copy:
+          src:      self-signed.conf
+          dest:     /etc/nginx/snippets/
+          force:    yes
+
+      - name:       Nginx config activation
+        file:
+          src:      "{{ path_nginx }}/{{ nginx_file }}"
+          dest:     "/etc/nginx/sites-enabled/{{ nginx_file }}"
+          state:    link
+
+      - name:       Nginx restart
+        command:    systemctl restart nginx
+
+      - name:       Uwf config activation
+        command:    "ufw {{ item }}"
+        with_items: "{{ ufw_command }}"
+
+      # Configuring SSH
+      - name:       Copy ssh file
+        copy:
+          src:      sshd_config
+          dest:     /etc/ssh/
+          force:    yes
+
+      - name:       ssh restart
+        command:    systemctl restart ssh
+
+      # Print Final Message
+      - name:       End of Work
+        debug:
+          msg:      "THE JOB IS DONE !!! "

@@ -1,0 +1,9 @@
+# This is the default ansible 'hosts' file.
+
+[vm]
+web ansible_host=10.0.2.5
+
+[vm:vars]
+ansible_user=ans
+ansible_sudo_pass=*11111aa
+ansible_ssh_private_key_file=/home/ans_user/.ssh/id_rsa
