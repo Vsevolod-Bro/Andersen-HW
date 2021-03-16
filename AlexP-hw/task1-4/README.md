@@ -1,7 +1,7 @@
-**Andersen Homework 1, task4**
+###**Andersen Homework 1, task4**
 
-**Objective**
-## Create and deploy your own service
+## **Objective**
+### Create and deploy your own service
 ### The development stage:
 For the true enterprise grade system we will need Python3, Flask and emoji support. Why on Earth would we create stuff that does not support emoji?!
 
@@ -21,7 +21,9 @@ curl -XPOST -d'{"word":"evilmartian", "count": 3}' http://myvm.localhost/
 * bonus points for SSL/HTTPS support with self-signed certificates
 * bonus points for using ansible vault
 
-**Prerequisites**
+##  **Implementation**
+
+### **Prerequisites**
 
 * On target PC must be:
   - installed SUDO
@@ -41,7 +43,7 @@ curl -XPOST -d'{"word":"evilmartian", "count": 3}' http://myvm.localhost/
 * Runs Main.yml
 
 
-**Deployment Result**
+### **Deployment Result**
 1. The nginx server running on http and https
 2. Application configured as service and works after restart.
 3. SSH configured for Key access only. Root access disabled.
@@ -50,9 +52,9 @@ curl -XPOST -d'{"word":"evilmartian", "count": 3}' http://myvm.localhost/
 6. UFW firewall installed. Open ports: 80, 443, 22
 7. Flask application works in conjunction with the server and displays the root page *\* and hello page **\hello**
 8. Application processes a request like:
-'''sh
+```sh
 curl -XPOST -d'{"word":"face with tears of joy", "count":5}' http://.../
-'''
+```
 * That is, you can enter a name for emoji and they will be displayed accordingly.
 
 **SSH security configure**
