@@ -6,3 +6,6 @@
   - Task1-2: The first homework, the second task
   - Task1-3: The first homework, the third task
   - Task1-4: The first homework, the fourth task
+  
+**GlebCh-hw:** Very cool tasks from Gleb for Clouds, Terra etc.
+  - hw1: The first homework about AWS CloudFormation
