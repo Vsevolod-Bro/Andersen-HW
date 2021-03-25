@@ -1,19 +1,19 @@
 **Homework AWS CloudFormation**
 _____________________________________________________
 
-##**Objective:**
+## **Objective:**
 
-* Write the AWS CLoudFormaion template for the diagram: *Assignment Scheme.JPG*
+* Write the AWS CLoudFormation template for the diagram: *Assignment Scheme.JPG*
 * File *index.html*  required to place into S3 bucket
 * Install nginx and copy *index.html* implement using UserData.
 
-###Additional:
+### Additional:
 1. Add **AutoRecovery** for EC2
 2. Edit diagram for actual manner.
 3. Do the same thing in Azure
 4. Write the script-wrapper that have the ability to run different Envs with the different options
 
-##Solution:
+## Solution:
 
 I did the task in Two stages:
 * In the **first** Stage, I created the main infrastructure. Then I configured EC2 to connect to the Internet through one NAT and install *nginx* from the Internet repository. Creation of *index.html* and installation of *nginx* I made in the script located in the **UserData**. This is implemented in __*aws-cf-01.yml*__
