@@ -1,0 +1,87 @@
+
+while sleep 0.5; do psql -c "select application_name, state, client_addr, replay_lag  from pg_stat_replication;" > 22.txt; done
+
+
+
+ node1            | streaming | 10.0.2.81   | 
+(1 row)
+
+ application_name |   state   | client_addr | replay_lag 
+------------------+-----------+-------------+------------
+ node1            | streaming | 10.0.2.81   | 
+(1 row)
+
+ application_name |   state   | client_addr |   replay_lag    
+------------------+-----------+-------------+-----------------
+ node1            | streaming | 10.0.2.81   | 00:00:00.245247
+(1 row)
+
+ application_name |   state   | client_addr |   replay_lag    
+------------------+-----------+-------------+-----------------
+ node1            | streaming | 10.0.2.81   | 00:00:00.119204
+(1 row)
+
+ application_name |   state   | client_addr |   replay_lag    
+------------------+-----------+-------------+-----------------
+ node1            | streaming | 10.0.2.81   | 00:00:00.254054
+(1 row)
+
+ application_name |   state   | client_addr |   replay_lag    
+------------------+-----------+-------------+-----------------
+ node1            | streaming | 10.0.2.81   | 00:00:00.396386
+(1 row)
+
+ application_name |   state   | client_addr |   replay_lag    
+------------------+-----------+-------------+-----------------
+ node1            | streaming | 10.0.2.81   | 00:00:00.254924
+(1 row)
+
+ application_name |   state   | client_addr |   replay_lag    
+------------------+-----------+-------------+-----------------
+ node1            | streaming | 10.0.2.81   | 00:00:00.014709
+(1 row)
+
+ application_name |   state   | client_addr |   replay_lag    
+------------------+-----------+-------------+-----------------
+ node1            | streaming | 10.0.2.81   | 00:00:00.247727
+(1 row)
+
+ application_name |   state   | client_addr |   replay_lag    
+------------------+-----------+-------------+-----------------
+ node1            | streaming | 10.0.2.81   | 00:00:00.367382
+(1 row)
+
+ application_name |   state   | client_addr |   replay_lag    
+------------------+-----------+-------------+-----------------
+ node1            | streaming | 10.0.2.81   | 00:00:00.219649
+(1 row)
+
+ application_name |   state   | client_addr |   replay_lag    
+------------------+-----------+-------------+-----------------
+ node1            | streaming | 10.0.2.81   | 00:00:00.226217
+(1 row)
+
+ application_name |   state   | client_addr |   replay_lag    
+------------------+-----------+-------------+-----------------
+ node1            | streaming | 10.0.2.81   | 00:00:00.345909
+(1 row)
+
+ application_name |   state   | client_addr |   replay_lag    
+------------------+-----------+-------------+-----------------
+ node1            | streaming | 10.0.2.81   | 00:00:00.345909
+(1 row)
+
+ application_name |   state   | client_addr |   replay_lag    
+------------------+-----------+-------------+-----------------
+ node1            | streaming | 10.0.2.81   | 00:00:00.345909
+(1 row)
+
+ application_name |   state   | client_addr |   replay_lag    
+------------------+-----------+-------------+-----------------
+ node1            | streaming | 10.0.2.81   | 00:00:00.345909
+(1 row)
+
+ application_name |   state   | client_addr |   replay_lag    
+------------------+-----------+-------------+-----------------
+ node1            | streaming | 10.0.2.81   | 00:00:00.345909
+(1 row)

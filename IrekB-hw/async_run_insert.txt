@@ -1,0 +1,5 @@
+Insert on tab1  (cost=0.00..30.00 rows=1000 width=36) (actual time=6033.019..6033.020 rows=0 loops=1)
+   ->  Function Scan on generate_series i  (cost=0.00..20.00 rows=1000 width=36) (actual time=178.971..2298.411 rows=1000000 loops=1)
+ Planning Time: 0.083 ms
+ Execution Time: 6039.067 ms
+(4 rows)

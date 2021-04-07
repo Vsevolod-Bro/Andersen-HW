@@ -1,0 +1,8 @@
+postgres=# explain analyze INSERT INTO tab1 SELECT i, md5(random()::text) FROM generate_series(1, 1000000) AS i;
+                                                              QUERY PLAN                                                              
+--------------------------------------------------------------------------------------------------------------------------------------
+ Insert on tab1  (cost=0.00..30.00 rows=1000 width=36) (actual time=6462.836..6462.837 rows=0 loops=1)
+   ->  Function Scan on generate_series i  (cost=0.00..20.00 rows=1000 width=36) (actual time=145.326..2268.701 rows=1000000 loops=1)
+ Planning Time: 0.073 ms
+ Execution Time: 6466.718 ms
+(4 rows)

@@ -1,0 +1,103 @@
+while sleep 0.5; do psql -c "select application_name, state, client_addr, replay_lag  from pg_stat_replication;" > 11.txt; done
+
+
+
+ application_name |   state   | client_addr | replay_lag 
+------------------+-----------+-------------+------------
+ walreceiver      | streaming | 10.0.2.81   | 
+(1 row)
+
+ application_name |   state   | client_addr |   replay_lag    
+------------------+-----------+-------------+-----------------
+ walreceiver      | streaming | 10.0.2.81   | 00:00:00.025874
+(1 row)
+
+ application_name |   state   | client_addr |   replay_lag    
+------------------+-----------+-------------+-----------------
+ walreceiver      | streaming | 10.0.2.81   | 00:00:00.136877
+(1 row)
+
+ application_name |   state   | client_addr |   replay_lag    
+------------------+-----------+-------------+-----------------
+ walreceiver      | streaming | 10.0.2.81   | 00:00:00.087676
+(1 row)
+
+ application_name |   state   | client_addr |   replay_lag    
+------------------+-----------+-------------+-----------------
+ walreceiver      | streaming | 10.0.2.81   | 00:00:00.436601
+(1 row)
+
+ application_name |   state   | client_addr |   replay_lag    
+------------------+-----------+-------------+-----------------
+ walreceiver      | streaming | 10.0.2.81   | 00:00:00.284489
+(1 row)
+
+ application_name |   state   | client_addr |   replay_lag   
+------------------+-----------+-------------+----------------
+ walreceiver      | streaming | 10.0.2.81   | 00:00:00.17863
+(1 row)
+
+ application_name |   state   | client_addr |   replay_lag    
+------------------+-----------+-------------+-----------------
+ walreceiver      | streaming | 10.0.2.81   | 00:00:00.291722
+(1 row)
+
+ application_name |   state   | client_addr |   replay_lag    
+------------------+-----------+-------------+-----------------
+ walreceiver      | streaming | 10.0.2.81   | 00:00:00.168959
+(1 row)
+
+ application_name |   state   | client_addr |   replay_lag    
+------------------+-----------+-------------+-----------------
+ walreceiver      | streaming | 10.0.2.81   | 00:00:00.261392
+(1 row)
+
+ application_name |   state   | client_addr |   replay_lag    
+------------------+-----------+-------------+-----------------
+ walreceiver      | streaming | 10.0.2.81   | 00:00:00.251824
+(1 row)
+
+ application_name |   state   | client_addr |   replay_lag    
+------------------+-----------+-------------+-----------------
+ walreceiver      | streaming | 10.0.2.81   | 00:00:00.254306
+(1 row)
+
+ application_name |   state   | client_addr |   replay_lag    
+------------------+-----------+-------------+-----------------
+ walreceiver      | streaming | 10.0.2.81   | 00:00:00.254306
+(1 row)
+
+ application_name |   state   | client_addr |   replay_lag    
+------------------+-----------+-------------+-----------------
+ walreceiver      | streaming | 10.0.2.81   | 00:00:00.254306
+(1 row)
+
+ application_name |   state   | client_addr |   replay_lag    
+------------------+-----------+-------------+-----------------
+ walreceiver      | streaming | 10.0.2.81   | 00:00:00.254306
+(1 row)
+
+ application_name |   state   | client_addr |   replay_lag    
+------------------+-----------+-------------+-----------------
+ walreceiver      | streaming | 10.0.2.81   | 00:00:00.254306
+(1 row)
+
+ application_name |   state   | client_addr |   replay_lag    
+------------------+-----------+-------------+-----------------
+ walreceiver      | streaming | 10.0.2.81   | 00:00:00.254306
+(1 row)
+
+ application_name |   state   | client_addr |   replay_lag    
+------------------+-----------+-------------+-----------------
+ walreceiver      | streaming | 10.0.2.81   | 00:00:00.254306
+(1 row)
+
+ application_name |   state   | client_addr |   replay_lag    
+------------------+-----------+-------------+-----------------
+ walreceiver      | streaming | 10.0.2.81   | 00:00:00.254306
+(1 row)
+
+ application_name |   state   | client_addr |   replay_lag    
+------------------+-----------+-------------+-----------------
+ walreceiver      | streaming | 10.0.2.81   | 00:00:00.254306
+(1 row)
