@@ -1,0 +1,10 @@
+*.log
+*.LOG
+secrets/
+/andersen/Andersen-HW/GlebCh-hw/hw2/secrets
+*.tfstate*
+Adds/
+*.exe
+web-site/
+.terraform/
+*.hcl

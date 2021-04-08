@@ -1,0 +1,5 @@
+aws_access_key = "access_key"
+aws_secret_key = "secret_key"
+region = "us-west-2"
+aws_key_name = "MyKey-Oregon"
+DB_pass = "db_pass"

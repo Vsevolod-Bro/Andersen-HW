@@ -44,3 +44,4 @@ I did the task in Two stages:
 4. Azure          - not implemented
 5. Script-wrapper - not implemented (could be pass the Image ID )
 6. I want make the procedure that will get the Image ID by the Image name - not implemented
+7. Create S3-Bucket with the Code - is it needed?
