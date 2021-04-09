@@ -1,0 +1,2 @@
+create table users (id int PRIMARY KEY AUTO_INCREMENT, fst_name varchar(255), lst_name varchar(255),phone varchar(20));
+INSERT users(fst_name, lst_name, phone) VALUES ('Ivan', 'Petrov', '+79001112233'), ('John', 'Smith', '+79002223344'), ('Willy', 'Milly', '+79003334455');
